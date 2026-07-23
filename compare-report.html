@@ -1,0 +1,61 @@
+<!doctype html>
+<html lang="ar" dir="rtl">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>مقارنة التقرير | كراج الميكانيكي</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Tajawal:wght@400;500;700;800&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="style.css?v=stationery-login" />
+  <style>
+    html, body { min-height: 100%; }
+    .compare-page-shell {
+      width: min(1600px, calc(100% - 34px));
+      margin: 0 auto;
+      padding: 26px 0;
+    }
+    @media (max-width: 860px) {
+      .compare-page-shell {
+        width: min(100% - 20px, 1600px);
+        padding: 16px 0 30px;
+      }
+    }
+  </style>
+</head>
+<body>
+  <main class="compare-page-shell">
+    <nav class="top-nav card" aria-label="التنقل بين صفحات الموقع">
+      <a href="index.html">توجيهات الميدان</a>
+      <a href="reports.html">التقارير الميدانية</a>
+      <a href="supervision.html">تقارير الاشراف</a>
+      <a href="admin.html">شؤون إدارية</a>
+      <a class="active" href="compare-report.html">مقارنة التقرير</a>
+    
+      <div class="nav-session-box">
+        <span>Discord ID</span>
+        <strong data-discord-id>---</strong>
+        <button type="button" data-logout>إنهاء الجلسة</button>
+      </div>
+    </nav>
+
+    <section class="card compare-full-card">
+      <div class="compare-toolbar">
+        <h1>مقارنة التقرير</h1>
+        <a class="compare-open-link" href="https://xhhp1.github.io/SOMTINGHNEW/" target="_blank" rel="noopener">فتح في صفحة مستقلة</a>
+      </div>
+
+      <div class="compare-frame-full">
+        <iframe
+          src="https://xhhp1.github.io/SOMTINGHNEW/"
+          title="مقارنة التقرير"
+          loading="eager"
+          referrerpolicy="no-referrer-when-downgrade"
+          allowfullscreen>
+        </iframe>
+      </div>
+    </section>
+  </main>
+  <script src="auth.js?v=stationery-login"></script>
+</body>
+</html>

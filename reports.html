@@ -1,0 +1,236 @@
+<!doctype html>
+<html lang="ar" dir="rtl">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>التقارير الميدانية | كراج الميكانيكي</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Tajawal:wght@400;500;700;800&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="style.css?v=stationery-login" />
+</head>
+<body>
+  <main class="page-shell wide">
+    <nav class="top-nav card" aria-label="التنقل بين صفحات الموقع">
+      <a href="index.html">توجيهات الميدان</a>
+      <a class="active" href="reports.html">التقارير الميدانية</a>
+      <a href="supervision.html">تقارير الاشراف</a>
+      <a href="admin.html">شؤون إدارية</a>
+      <a href="compare-report.html">مقارنة التقرير</a>
+    
+      <div class="nav-session-box">
+        <span>Discord ID</span>
+        <strong data-discord-id>---</strong>
+        <button type="button" data-logout>إنهاء الجلسة</button>
+      </div>
+    </nav>
+
+    <section class="hero card">
+      <div class="badge">كراج الميكانيكي</div>
+      <h1>التقارير الميدانية</h1>
+      <p>عبّئ البيانات ثم اضغط إنشاء التقرير، وبعدها انسخ التقرير جاهز للديسكورد.</p>
+    </section>
+
+    <div class="report-layout has-audit-panel">
+      <aside class="card audit-panel" aria-label="إضافة صورة للتدقيق">
+        <h2>صورة التدقيق</h2>
+        <p>أضف صورة التقرير هنا للمراجعة بجانب الخانات. يمكنك تكبيرها، تصغيرها، وسحبها بالماوس للتحريك. الصورة للمعاينة فقط ولا تدخل في نص التقرير أو النسخ.</p>
+
+        <div class="field">
+          <label for="auditImage">إضافة صورة</label>
+          <input id="auditImage" type="file" accept="image/*" />
+        </div>
+
+        <div class="audit-actions audit-actions-top" aria-label="أدوات التحكم بالصورة">
+          <button id="zoomInAuditImageBtn" class="primary" type="button">تكبير +</button>
+          <button id="zoomOutAuditImageBtn" class="secondary" type="button">تصغير -</button>
+          <button id="clearAuditImageBtn" class="danger" type="button">حذف الصورة</button>
+          <button id="resetGuideLinesBtn" class="secondary" type="button">إعادة ضبط الخطين</button>
+        </div>
+        <div class="audit-preview" aria-live="polite">
+          <img id="auditPreview" class="hidden" alt="معاينة صورة التقرير" />
+          <div id="auditDimTop" class="audit-dim audit-dim-top hidden" aria-hidden="true"></div>
+          <div id="auditDimBottom" class="audit-dim audit-dim-bottom hidden" aria-hidden="true"></div>
+          <div id="auditGuide1" class="audit-guide hidden" aria-label="خط التدقيق الأول"><span>الخط 1</span></div>
+          <div id="auditGuide2" class="audit-guide hidden" aria-label="خط التدقيق الثاني"><span>الخط 2</span></div>
+          <div id="auditPlaceholder" class="image-placeholder">لم يتم اختيار صورة بعد</div>
+        </div>
+      </aside>
+
+      <section class="card report-card" aria-label="نموذج التقرير الميداني">
+      <h2>بيانات التقرير</h2>
+
+      <div class="grid three">
+        <div class="field">
+          <label for="reportNumber">تقرير رقم</label>
+          <input id="reportNumber" type="text" placeholder="مثال: 1" />
+        </div>
+
+        <div class="field">
+          <label for="fromTime">من الساعة</label>
+          <div class="inline">
+            <select id="fromTime" aria-label="وقت البداية">
+              <option value="01:00">01:00</option>
+              <option value="02:00">02:00</option>
+              <option value="03:00">03:00</option>
+              <option value="04:00">04:00</option>
+              <option value="05:00">05:00</option>
+              <option value="06:00">06:00</option>
+              <option value="07:00" selected>07:00</option>
+              <option value="08:00">08:00</option>
+              <option value="09:00">09:00</option>
+              <option value="10:00">10:00</option>
+              <option value="11:00">11:00</option>
+              <option value="12:00">12:00</option>
+            </select>
+            <select id="fromPeriod" aria-label="الفترة من">
+              <option>ص</option>
+              <option>م</option>
+            </select>
+          </div>
+        </div>
+
+        <div class="field">
+          <label for="toTime">حتى الساعة</label>
+          <div class="inline">
+            <select id="toTime" aria-label="وقت النهاية">
+              <option value="01:00">01:00</option>
+              <option value="02:00">02:00</option>
+              <option value="03:00">03:00</option>
+              <option value="04:00">04:00</option>
+              <option value="05:00">05:00</option>
+              <option value="06:00">06:00</option>
+              <option value="07:00">07:00</option>
+              <option value="08:00" selected>08:00</option>
+              <option value="09:00">09:00</option>
+              <option value="10:00">10:00</option>
+              <option value="11:00">11:00</option>
+              <option value="12:00">12:00</option>
+            </select>
+            <select id="toPeriod" aria-label="الفترة حتى">
+              <option>ص</option>
+              <option>م</option>
+            </select>
+          </div>
+        </div>
+      </div>
+
+      <h2>الإدارة والإشراف</h2>
+      <p class="section-note">يمكنك وضع Copy ID الخاص بالديسكورد مباشرة، وسيتم تحويله تلقائياً إلى منشن مثل &lt;@457775919122087936&gt;.</p>
+      <div class="grid two">
+        <div class="field">
+          <label for="garageLeader">قيادة الكراج</label>
+          <textarea id="garageLeader" rows="2" placeholder="ضع Copy ID مثل 457775919122087936 وسيتم تحويله إلى &lt;@...&gt;"></textarea>
+        </div>
+
+        <div class="field">
+          <label for="advisor">مستشار القائد</label>
+          <textarea id="advisor" rows="2" placeholder="ضع Copy ID أو منشن المستشار"></textarea>
+        </div>
+
+        <div class="field">
+          <label for="generalSupervisor">المشرف العام</label>
+          <textarea id="generalSupervisor" rows="2" placeholder="ضع Copy ID أو منشن المشرف العام"></textarea>
+        </div>
+
+        <div class="field">
+          <label for="fieldSupervisor">المشرف الميداني</label>
+          <textarea id="fieldSupervisor" rows="2" placeholder="ضع Copy ID أو منشن المشرف الميداني"></textarea>
+        </div>
+
+        <div class="field">
+          <label for="areaSupervisors">مشرفين المناطق</label>
+          <textarea id="areaSupervisors" rows="2" placeholder="ضع Copy ID أو منشن مشرفين المناطق"></textarea>
+        </div>
+
+        <div class="field">
+          <label for="traineeSupervisors">مشرفين متدربين</label>
+          <textarea id="traineeSupervisors" rows="2" placeholder="ضع Copy ID أو اكتب لا يوجد"></textarea>
+        </div>
+      </div>
+
+      <h2>العمليات والاتصالات</h2>
+      <p class="section-note">يمكنك وضع Copy ID في خانات العمليات والاتصالات والسيدات والمعتمدين، وسيتم تحويله تلقائياً إلى منشن. كما يمكن وضع Copy ID في خانات ميناء لوس وميناء بوليتو.</p>
+      <div class="grid two">
+        <div class="field">
+          <label for="operations">العمليات</label>
+          <textarea id="operations" rows="2" placeholder="ضع Copy ID أو منشن العمليات"></textarea>
+        </div>
+
+        <div class="field">
+          <label for="deputyOperations">نائب العمليات</label>
+          <textarea id="deputyOperations" rows="2" placeholder="ضع Copy ID أو منشن نائب العمليات"></textarea>
+        </div>
+
+        <div class="field">
+          <label for="callCenter">مركز الاتصالات</label>
+          <textarea id="callCenter" rows="2" placeholder="ضع Copy ID أو منشن مركز الاتصالات"></textarea>
+        </div>
+
+        <div class="field">
+          <label for="ladiesCertified">السيدات و المعتمدين</label>
+          <textarea id="ladiesCertified" rows="2" placeholder="ضع Copy ID أو منشن، أو اتركها فاضية"></textarea>
+        </div>
+      </div>
+
+      <h2>المناطق</h2>
+      <div class="grid two">
+        <div class="field">
+          <label for="islandPaleto">جزيرة بوليتو</label>
+          <textarea id="islandPaleto" rows="3" placeholder="اكتب 163 وسيتم تحويله إلى G-163 أو اكتب لا يوجد"></textarea>
+        </div>
+
+        <div class="field">
+          <label for="paleto">بوليتو</label>
+          <textarea id="paleto" rows="3" placeholder="اكتب 163 وسيتم تحويله إلى G-163 أو اكتب لا يوجد"></textarea>
+        </div>
+
+        <div class="field">
+          <label for="sandy">ساندي</label>
+          <textarea id="sandy" rows="5" placeholder="G-534&#10;G-507"></textarea>
+        </div>
+
+        <div class="field">
+          <label for="los">لوس</label>
+          <textarea id="los" rows="5" placeholder="G-506"></textarea>
+        </div>
+      </div>
+
+      <h2>خدمات الأسطول</h2>
+      <div class="grid three">
+        <div class="field">
+          <label for="fleetCount">عدد</label>
+          <input id="fleetCount" type="number" min="0" value="0" placeholder="00" />
+        </div>
+
+        <div class="field">
+          <label for="losPort">ميناء لوس</label>
+          <textarea id="losPort" rows="2" placeholder="ضع Copy ID أو منشن فني ميناء لوس، أو اكتب لا يوجد"></textarea>
+        </div>
+
+        <div class="field">
+          <label for="paletoPort">ميناء بوليتو</label>
+          <textarea id="paletoPort" rows="2" placeholder="ضع Copy ID أو منشن فني ميناء بوليتو، أو اكتب لا يوجد"></textarea>
+        </div>
+      </div>
+
+      <div class="button-row">
+        <button id="generateBtn" class="primary" type="button">إنشاء التقرير</button>
+        <button id="copyReportBtn" class="secondary" type="button">نسخ التقرير</button>
+        <button id="exampleBtn" class="ghost" type="button">تعبئة مثال</button>
+        <button id="clearBtn" class="danger" type="button">مسح الخانات</button>
+      </div>
+
+      <div class="field result-wrap">
+        <label for="reportOutput">التقرير النهائي</label>
+        <textarea id="reportOutput" class="report-output" rows="24" readonly>سيظهر التقرير هنا بعد الضغط على إنشاء التقرير.</textarea>
+      </div>
+    </section>
+    </div>
+  </main>
+
+  <div id="toast" role="status" aria-live="polite"></div>
+  <script src="report.js"></script>
+  <script src="auth.js?v=stationery-login"></script>
+</body>
+</html>
