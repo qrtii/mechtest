@@ -1,5 +1,21 @@
-// صيغة الناتج في التوجيه الميداني:
-// الاسم | لاعب معتمد | الكود | الموقع / المسمى الميداني
+// توجيهات الميدان حسب حساب Discord المسجل دخول
+// الناتج: الاسم | لاعب معتمد | الكود | التوجيه / المسمى الميداني
+
+const FIELD_ACCOUNT_PROFILES = {
+  "481603641158139924": {
+    name: "سعيد البدواوي",
+    code: "G-142",
+    certified: "CD",
+    avatar: "https://cdn.discordapp.com/embed/avatars/0.png"
+  },
+  "1336726577265774715": {
+    name: "محمد بن فاضل",
+    code: "G-070",
+    certified: "CD",
+    avatar: "https://cdn.discordapp.com/embed/avatars/1.png"
+  }
+};
+
 const rankInput = document.getElementById("rank");
 const companyInput = document.getElementById("company");
 const certifiedInput = document.getElementById("certified");
@@ -9,72 +25,65 @@ const showBtn = document.getElementById("showBtn");
 const copyBtn = document.getElementById("copyBtn");
 const toast = document.getElementById("toast");
 
-
-const FIELD_DISCORD_PROFILES = {
-  "سعيد البدواوي": {
-    discordId: "481603641158139924",
-    name: "سعيد البدواوي",
-    code: "G-142",
-    certified: "CD",
-    avatar: "https://cdn.discordapp.com/embed/avatars/0.png"
-  },
-  "محمد بن فاضل": {
-    discordId: "1336726577265774715",
-    name: "محمد بن فاضل",
-    code: "G-070",
-    certified: "CD",
-    avatar: "https://cdn.discordapp.com/embed/avatars/1.png"
-  }
-};
-
-function getFieldDiscordProfile(name) {
-  return FIELD_DISCORD_PROFILES[String(name || '').trim()] || null;
-}
-
-function updateFieldDiscordProfile() {
-  const profile = getFieldDiscordProfile(companyInput.value);
-  const card = document.getElementById('discordProfileCard');
-  const avatar = document.getElementById('discordProfileAvatar');
-  const profileName = document.getElementById('discordProfileName');
-  const profileId = document.getElementById('discordProfileId');
-
-  if (!card || !avatar || !profileName || !profileId) return;
-
-  if (!profile) {
-    card.classList.add('hidden');
-    avatar.removeAttribute('src');
-    profileName.textContent = '---';
-    profileId.textContent = '---';
-    return;
-  }
-
-  avatar.src = profile.avatar;
-  profileName.textContent = profile.name + ' | ' + profile.certified + ' | ' + profile.code;
-  profileId.textContent = profile.discordId;
-  card.classList.remove('hidden');
-
-  if (certifiedInput && profile.certified) certifiedInput.value = profile.certified;
-  if (playerNameInput && profile.code) playerNameInput.value = profile.code;
-}
+const currentProfileAvatar = document.getElementById("currentProfileAvatar");
+const currentProfileName = document.getElementById("currentProfileName");
+const currentProfileDetails = document.getElementById("currentProfileDetails");
 
 let currentText = "";
 
+function getCurrentDiscordId() {
+  const session = window.MechGarageAuth?.getSession?.();
+  return session?.discordId || "";
+}
+
+function getCurrentProfile() {
+  const discordId = getCurrentDiscordId();
+  const profile = FIELD_ACCOUNT_PROFILES[discordId];
+
+  if (!profile) return null;
+
+  return {
+    discordId,
+    ...profile
+  };
+}
+
+function applyCurrentProfile() {
+  const profile = getCurrentProfile();
+
+  if (!profile) {
+    showToast("هذا الحساب غير مربوط ببروفايل توجيهات الميدان");
+    resultBox.textContent = "هذا الحساب غير مربوط ببروفايل توجيهات الميدان.";
+    resultBox.classList.remove("ready");
+    return null;
+  }
+
+  companyInput.value = profile.name;
+  certifiedInput.value = profile.certified;
+  playerNameInput.value = profile.code;
+
+  if (currentProfileAvatar) currentProfileAvatar.src = profile.avatar;
+  if (currentProfileName) currentProfileName.textContent = profile.name;
+  if (currentProfileDetails) {
+    currentProfileDetails.textContent = `${profile.discordId} | ${profile.certified} | ${profile.code}`;
+  }
+
+  return profile;
+}
+
 function makeText() {
-  updateFieldDiscordProfile();
+  const profile = applyCurrentProfile();
+  if (!profile) return "";
 
   const rank = rankInput.value.trim();
-  const company = companyInput.value.trim();
-  const certified = certifiedInput.value.trim();
-  const playerName = playerNameInput.value.trim();
 
   if (!rank) {
-    showToast("اختر المسمى الميداني أولاً");
+    showToast("اختر التوجيه أولاً");
     rankInput.focus();
     return "";
   }
 
-  // عكسنا مكان الاسم مع الموقع فقط، مع بقاء لاعب معتمد والكود في نفس الترتيب.
-  return [company, certified, playerName, rank].filter(Boolean).join(" | ");
+  return [profile.name, profile.certified, profile.code, rank].filter(Boolean).join(" | ");
 }
 
 function showResult() {
@@ -94,7 +103,6 @@ async function copyResult() {
     await navigator.clipboard.writeText(currentText);
     showToast("تم نسخ النص بنجاح");
   } catch (error) {
-    // حل احتياطي للمتصفحات القديمة.
     const temp = document.createElement("textarea");
     temp.value = currentText;
     document.body.appendChild(temp);
@@ -112,16 +120,17 @@ function showToast(message) {
   showToast.timer = setTimeout(() => toast.classList.remove("show"), 1800);
 }
 
-showBtn.addEventListener("click", showResult);
-copyBtn.addEventListener("click", copyResult);
+document.addEventListener("DOMContentLoaded", () => {
+  applyCurrentProfile();
 
-[rankInput, companyInput, certifiedInput, playerNameInput].forEach((input) => {
-  input.addEventListener("change", () => {
-    if (input === companyInput) updateFieldDiscordProfile();
+  showBtn.addEventListener("click", showResult);
+  copyBtn.addEventListener("click", copyResult);
+
+  rankInput.addEventListener("change", () => {
     if (currentText) showResult();
   });
 
-  input.addEventListener("input", () => {
+  rankInput.addEventListener("input", () => {
     if (currentText) showResult();
   });
 });

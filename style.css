@@ -1277,3 +1277,55 @@ textarea,
   color: rgba(255,255,255,0.65);
   font-size: 0.88rem;
 }
+
+
+/* توجيهات الميدان: الحساب حسب تسجيل الدخول فقط */
+.direction-only-card {
+  grid-template-columns: minmax(0, 1fr) minmax(0, 1fr);
+}
+
+.account-field,
+.direction-field {
+  align-self: end;
+}
+
+.discord-profile-card {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  min-height: 76px;
+  padding: 12px;
+  border: 1px solid rgba(217,154,43,0.38);
+  border-radius: 12px;
+  background: rgba(217,154,43,0.08);
+}
+
+.discord-profile-card img {
+  width: 52px;
+  height: 52px;
+  border-radius: 50%;
+  object-fit: cover;
+  border: 2px solid rgba(217,154,43,0.78);
+  background: rgba(255,255,255,0.08);
+}
+
+.discord-profile-card strong {
+  display: block;
+  color: #fff;
+  font-weight: 900;
+  line-height: 1.5;
+}
+
+.discord-profile-card span {
+  display: block;
+  direction: ltr;
+  text-align: right;
+  color: rgba(255,255,255,0.67);
+  font-size: 0.88rem;
+}
+
+@media (max-width: 760px) {
+  .direction-only-card {
+    grid-template-columns: 1fr;
+  }
+}
