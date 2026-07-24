@@ -7,7 +7,7 @@
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=Tajawal:wght@400;500;700;800&display=swap" rel="stylesheet">
-  <link rel="stylesheet" href="style.css?v=rp-ops-final" />
+  <link rel="stylesheet" href="style.css?v=field-discord-profiles" />
 </head>
 <body>
   <main class="page-shell">
@@ -54,7 +54,16 @@
           <option value="">اختر الاسم</option>
           <option>سعيد البدواوي</option>
           <option>محمد بن فاضل</option>
-          </select>
+          
+            <option value="سعيد البدواوي">سعيد البدواوي</option>
+            <option value="محمد بن فاضل">محمد بن فاضل</option></select>
+          <div id="discordProfileCard" class="discord-profile-card hidden" aria-live="polite">
+            <img id="discordProfileAvatar" src="" alt="صورة البروفايل" />
+            <div>
+              <strong id="discordProfileName">---</strong>
+              <span id="discordProfileId">---</span>
+            </div>
+          </div>
       </div>
 
       <div class="field">
@@ -65,7 +74,8 @@
           <option>CC</option>
           <option>CB</option>
           <option>CA</option>
-        </select>
+        
+            <option value="CD">CD</option></select>
       </div>
 
       <div class="field">
@@ -74,7 +84,9 @@
           <option value="">بدون كود</option>
           <option>G-163</option>
           <option>G-073</option>
-        </select>
+        
+            <option value="G-142">G-142</option>
+            <option value="G-070">G-070</option></select>
       </div>
 
       <div class="button-row">
@@ -89,7 +101,7 @@
   </main>
 
   <div id="toast" role="status" aria-live="polite"></div>
-  <script src="script.js"></script>
-  <script src="auth.js?v=rp-ops-final"></script>
+  <script src="script.js?v=field-discord-profiles"></script>
+  <script src="auth.js?v=field-discord-profiles"></script>
 </body>
 </html>
