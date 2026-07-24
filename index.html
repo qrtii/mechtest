@@ -3,11 +3,14 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <meta http-equiv="Cache-Control" content="no-cache, no-store, must-revalidate" />
+  <meta http-equiv="Pragma" content="no-cache" />
+  <meta http-equiv="Expires" content="0" />
   <title>توجيهات الميدان | كراج الميكانيكي</title>
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=Tajawal:wght@400;500;700;800;900&display=swap" rel="stylesheet">
-  <link rel="stylesheet" href="style.css?v=account-only-direction" />
+  <link rel="stylesheet" href="style.css?v=account-profile-final-20260724" />
 </head>
 <body>
   <nav class="top-nav">
@@ -25,41 +28,42 @@
 
   <main class="page-shell wide">
     <section class="hero card">
-      <span class="badge">FIVEM RP</span>
+      <span class="badge">كراج الميكانيكي</span>
       <h1>توجيهات الميدان</h1>
-      <p>يتم تحديد اسمك وكودك تلقائياً حسب حساب Discord المسجل دخول. اختر التوجيه فقط ثم انسخ النص.</p>
+      <p>حسابك يحدد الاسم والكود تلقائياً. اختر التوجيه فقط، ثم انسخ النص الجاهز.</p>
     </section>
 
-    <section class="form-card card direction-only-card">
-      <div class="field account-field">
-        <label>الحساب الحالي</label>
-        <div id="currentProfileCard" class="discord-profile-card">
-          <img id="currentProfileAvatar" src="https://cdn.discordapp.com/embed/avatars/0.png" alt="صورة البروفايل" />
+    <section class="form-card card direction-account-only-card">
+      <div class="field account-profile-field">
+        <label>الحساب الخاص بك</label>
+        <div id="currentProfileCard" class="discord-profile-card account-ready">
+          <img id="currentProfileAvatar" src="https://cdn.discordapp.com/embed/avatars/0.png" alt="صورة الحساب" />
           <div>
-            <strong id="currentProfileName">---</strong>
+            <strong id="currentProfileName">جاري تحميل الحساب...</strong>
             <span id="currentProfileDetails">---</span>
           </div>
         </div>
       </div>
 
-      <div class="field direction-field">
+      <div class="field direction-select-field">
         <label for="rank">التوجيه / المسمى الميداني</label>
         <select id="rank">
           <option value="">اختر التوجيه</option>
-          <option value="مقاطعة بوليتو">مقاطعة بوليتو</option>
-          <option value="لوس">لوس</option>
-          <option value="ساندي">ساندي</option>
           <option value="جزيرة بوليتو">جزيرة بوليتو</option>
+          <option value="بوليتو">بوليتو</option>
+          <option value="ساندي">ساندي</option>
+          <option value="لوس">لوس</option>
           <option value="ميناء لوس">ميناء لوس</option>
           <option value="ميناء بوليتو">ميناء بوليتو</option>
         </select>
       </div>
 
-      <input id="company" type="hidden" />
-      <input id="certified" type="hidden" />
-      <input id="playerName" type="hidden" />
+      <div class="account-output-hint">
+        <strong>صيغة النص:</strong>
+        <span>الاسم | CD | الكود | التوجيه</span>
+      </div>
 
-      <div class="button-row">
+      <div class="button-row account-actions-row">
         <button id="showBtn" class="primary" type="button">إظهار النص</button>
         <button id="copyBtn" class="secondary" type="button">نسخ النص</button>
       </div>
@@ -70,7 +74,7 @@
 
   <div id="toast"></div>
 
-  <script src="auth.js?v=account-only-direction"></script>
-  <script src="script.js?v=account-only-direction"></script>
+  <script src="auth.js?v=account-profile-final-20260724"></script>
+  <script src="script.js?v=account-profile-final-20260724"></script>
 </body>
 </html>

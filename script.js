@@ -1,5 +1,5 @@
-// توجيهات الميدان حسب حساب Discord المسجل دخول
-// الناتج: الاسم | لاعب معتمد | الكود | التوجيه / المسمى الميداني
+// توجيهات الميدان حسب Discord ID المسجل دخول
+// الناتج: الاسم | CD | الكود | التوجيه
 
 const FIELD_ACCOUNT_PROFILES = {
   "481603641158139924": {
@@ -17,73 +17,81 @@ const FIELD_ACCOUNT_PROFILES = {
 };
 
 const rankInput = document.getElementById("rank");
-const companyInput = document.getElementById("company");
-const certifiedInput = document.getElementById("certified");
-const playerNameInput = document.getElementById("playerName");
 const resultBox = document.getElementById("resultBox");
 const showBtn = document.getElementById("showBtn");
 const copyBtn = document.getElementById("copyBtn");
 const toast = document.getElementById("toast");
-
 const currentProfileAvatar = document.getElementById("currentProfileAvatar");
 const currentProfileName = document.getElementById("currentProfileName");
 const currentProfileDetails = document.getElementById("currentProfileDetails");
 
 let currentText = "";
+let activeProfile = null;
 
-function getCurrentDiscordId() {
-  const session = window.MechGarageAuth?.getSession?.();
-  return session?.discordId || "";
+function showToast(message) {
+  if (!toast) return;
+  toast.textContent = message;
+  toast.classList.add("show");
+  clearTimeout(showToast.timer);
+  showToast.timer = setTimeout(() => toast.classList.remove("show"), 1800);
 }
 
-function getCurrentProfile() {
-  const discordId = getCurrentDiscordId();
-  const profile = FIELD_ACCOUNT_PROFILES[discordId];
+function getSessionDiscordId() {
+  try {
+    const session = window.MechGarageAuth?.getSession?.();
+    if (session && session.discordId) return String(session.discordId);
+  } catch (error) {}
 
-  if (!profile) return null;
+  try {
+    const raw = localStorage.getItem("mechGarageDiscordSession");
+    const session = raw ? JSON.parse(raw) : null;
+    if (session && session.discordId) return String(session.discordId);
+  } catch (error) {}
 
-  return {
-    discordId,
-    ...profile
-  };
+  return "";
 }
 
-function applyCurrentProfile() {
-  const profile = getCurrentProfile();
+function loadAccountProfile() {
+  const discordId = getSessionDiscordId();
+  const profile = FIELD_ACCOUNT_PROFILES[discordId] || null;
 
   if (!profile) {
-    showToast("هذا الحساب غير مربوط ببروفايل توجيهات الميدان");
-    resultBox.textContent = "هذا الحساب غير مربوط ببروفايل توجيهات الميدان.";
-    resultBox.classList.remove("ready");
+    activeProfile = null;
+    if (currentProfileName) currentProfileName.textContent = "حساب غير مربوط";
+    if (currentProfileDetails) currentProfileDetails.textContent = discordId || "لا يوجد Discord ID";
+    if (resultBox) {
+      resultBox.textContent = "هذا الحساب غير مربوط ببروفايل في توجيهات الميدان.";
+      resultBox.classList.remove("ready");
+    }
     return null;
   }
 
-  companyInput.value = profile.name;
-  certifiedInput.value = profile.certified;
-  playerNameInput.value = profile.code;
+  activeProfile = { discordId, ...profile };
 
-  if (currentProfileAvatar) currentProfileAvatar.src = profile.avatar;
-  if (currentProfileName) currentProfileName.textContent = profile.name;
+  if (currentProfileAvatar) currentProfileAvatar.src = activeProfile.avatar;
+  if (currentProfileName) currentProfileName.textContent = activeProfile.name;
   if (currentProfileDetails) {
-    currentProfileDetails.textContent = `${profile.discordId} | ${profile.certified} | ${profile.code}`;
+    currentProfileDetails.textContent = `${activeProfile.discordId} | ${activeProfile.certified} | ${activeProfile.code}`;
   }
 
-  return profile;
+  return activeProfile;
 }
 
 function makeText() {
-  const profile = applyCurrentProfile();
-  if (!profile) return "";
+  const profile = activeProfile || loadAccountProfile();
+  if (!profile) {
+    showToast("هذا الحساب غير مربوط ببروفايل");
+    return "";
+  }
 
-  const rank = rankInput.value.trim();
-
-  if (!rank) {
+  const direction = rankInput.value.trim();
+  if (!direction) {
     showToast("اختر التوجيه أولاً");
     rankInput.focus();
     return "";
   }
 
-  return [profile.name, profile.certified, profile.code, rank].filter(Boolean).join(" | ");
+  return [profile.name, profile.certified, profile.code, direction].join(" | ");
 }
 
 function showResult() {
@@ -113,24 +121,16 @@ async function copyResult() {
   }
 }
 
-function showToast(message) {
-  toast.textContent = message;
-  toast.classList.add("show");
-  clearTimeout(showToast.timer);
-  showToast.timer = setTimeout(() => toast.classList.remove("show"), 1800);
-}
-
-document.addEventListener("DOMContentLoaded", () => {
-  applyCurrentProfile();
+function initFieldDirectionPage() {
+  loadAccountProfile();
 
   showBtn.addEventListener("click", showResult);
   copyBtn.addEventListener("click", copyResult);
 
   rankInput.addEventListener("change", () => {
-    if (currentText) showResult();
+    currentText = "";
+    showResult();
   });
+}
 
-  rankInput.addEventListener("input", () => {
-    if (currentText) showResult();
-  });
-});
+document.addEventListener("DOMContentLoaded", initFieldDirectionPage);
