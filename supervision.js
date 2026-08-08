@@ -57,9 +57,17 @@ function convertDiscordIdsToMentions(text) {
   return working.trim();
 }
 
+
+function resolveMechanicCodeOrMention(text) {
+  if (window.MechanicsMentions && typeof window.MechanicsMentions.resolve === 'function') {
+    return window.MechanicsMentions.resolve(text);
+  }
+  return convertDiscordIdsToMentions(text);
+}
+
 function formatMentionField(input) {
   if (!input) return;
-  input.value = convertDiscordIdsToMentions(input.value);
+  input.value = resolveMechanicCodeOrMention(input.value);
 }
 
 function inBrackets(text) {
@@ -126,7 +134,7 @@ const mentionFields = [
 const divider = 'ــــــــــــــــــــــــــــــــــــــــــــــــــــــــــــــــــــــــــــــــ';
 
 function named(input) {
-  return inBrackets(value(input, 'لا يوجد'));
+  return inBrackets(resolveMechanicCodeOrMention(value(input, 'لا يوجد')));
 }
 
 function buildSupervisionReport() {
@@ -245,6 +253,25 @@ function clearFields() {
   fields.toPeriod.value = 'ص';
   fields.output.value = 'سيظهر تقرير الإشراف هنا بعد الضغط على إنشاء التقرير.';
   toast('تم مسح خانات تقرير الإشراف');
+}
+
+
+function initMechanicMentionAutoResolve() {
+  mentionFields.forEach((input) => {
+    if (!input || input.dataset.mechanicMentionReady === '1') return;
+    input.dataset.mechanicMentionReady = '1';
+
+    ['change', 'blur'].forEach((eventName) => {
+      input.addEventListener(eventName, () => formatMentionField(input));
+    });
+  });
+
+  document.addEventListener('mechanics-mentions-updated', () => {
+    mentionFields.forEach(formatMentionField);
+    if (fields.output && fields.output.value && !fields.output.value.includes('سيظهر تقرير الإشراف')) {
+      generateSupervisionReport();
+    }
+  });
 }
 
 function initSupervisionButtons() {
@@ -505,6 +532,7 @@ window.fillExample = fillExample;
 window.clearFields = clearFields;
 
 function initSupervisionPage() {
+  initMechanicMentionAutoResolve();
   initSupervisionButtons();
   initAuditImagePreview();
 }

@@ -5,6 +5,36 @@
   const SHEET_GID = '719528778';
 
   const FALLBACK_PROFILES = [
+    { name: 'ماجد الشمري', code: 'G-001', discordId: '818887908265033728' },
+    { name: 'فهد العنزي', code: 'G-002', discordId: '680393068469682256' },
+    { name: 'مـحـمـد الـجـهـنـي', code: 'G-003', discordId: '451806885419679765' },
+    { name: 'حـمـد بـن عـسـكـر', code: 'G-004', discordId: '1199529688989696051' },
+    { name: 'سـلـمـان الـشـمـري', code: 'G-005', discordId: '1282062186579230792' },
+    { name: 'يحيى صبحي', code: 'G-006', discordId: '943672877272694824' },
+    { name: 'خالد الحربي', code: 'G-007', discordId: '1329539822028849152' },
+    { name: 'لـطـام بن فهد', code: 'G-008', discordId: '1129397195116920863' },
+    { name: 'محمد الحجيلي', code: 'G-009', discordId: '457775919122087936' },
+    { name: 'بدر ناصر', code: 'G-010', discordId: '1347310064977055834' },
+    { name: 'منير العتيبي', code: 'G-011', discordId: '1131176314498449510' },
+    { name: 'سلمان حامد', code: 'G-012', discordId: '1139633117875933325' },
+    { name: 'اواب بن محمد', code: 'G-014', discordId: '1134737782712053880' },
+    { name: 'ياسر الحربي', code: 'G-015', discordId: '757230139569471559' },
+    { name: 'احمد حمد', code: 'G-016', discordId: '557660657990893588' },
+    { name: 'زهرة القصاب', code: 'G-017', discordId: '831347644110077975' },
+    { name: 'سليمان الشمري', code: 'G-018', discordId: '947130192277667880' },
+    { name: 'محمد جاسم', code: 'G-019', discordId: '320389666161295360' },
+    { name: 'صالح محمد', code: 'G-024', discordId: '1345208492264521738' },
+    { name: 'سلطان بن جمعان', code: 'G-025', discordId: '612462415463972864' },
+    { name: 'اكبر علي', code: 'G-026', discordId: '719523763904839760' },
+    { name: 'عبدالعزيز فقيهي', code: 'G-027', discordId: '755393813035483136' },
+    { name: 'عـوده الحجـيـلي', code: 'G-028', discordId: '725628601348784129' },
+    { name: 'فارس بن سليمان', code: 'G-047', discordId: '1014559920479272980' },
+    { name: 'صقر السعد', code: 'G-048', discordId: '1278765100538265632' },
+    { name: 'اياد المسعودي', code: 'G-049', discordId: '1394494154347642942' },
+    { name: 'امجد بن عواد', code: 'G-050', discordId: '927282301426073610' },
+    { name: 'عماد الشمري', code: 'G-051', discordId: '612809010424446976' },
+    { name: 'عبدالرحمن الشهراني', code: 'G-052', discordId: '1459966470694899898' },
+    { name: 'نهاش الشمري', code: 'G-053', discordId: '725308791339614248' },
     { name: 'سعيد البدواوي', code: 'G-109', discordId: '481603641158139924' },
     { name: 'محمد بن فاضل', code: 'G-070', discordId: '1336726577265774715' }
   ];
@@ -249,7 +279,7 @@
     let working = normalizeDigits(String(text || ''));
 
     working = protectText(working, /https?:\/\/\S+/g, placeholders);
-    working = protectText(working, /<@&?!?\d{15,25}>|<@!?\d{15,25}>|<\d{15,25}@>/g, placeholders);
+    working = protectText(working, /<@&?\d{15,25}>|<@!?\d{15,25}>|<\d{15,25}@>/g, placeholders);
 
     // Copy ID مباشر.
     working = working.replace(/\b\d{15,25}\b/g, (discordId) => '<@' + discordId + '>');
