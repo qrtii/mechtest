@@ -7,7 +7,7 @@
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=Tajawal:wght@400;500;700;800&display=swap" rel="stylesheet">
-  <link rel="stylesheet" href="style.css?v=account-profile-final-20260724" />
+  <link rel="stylesheet" href="style.css?v=mechanics-sheet-mentions" />
 </head>
 <body>
   <main class="page-shell wide">
@@ -72,23 +72,188 @@
         </div>
 
         <h2>وقت الإجازة</h2>
-        <div class="grid two">
+        <div class="grid two admin-time-grid">
           <div class="field">
             <label>من تاريخ</label>
-            <div class="inline date-time">
+            <div class="admin-date-time-row">
               <input id="leaveFromDate" type="date" aria-label="تاريخ بداية الإجازة" />
-              <input id="leaveFromTime" class="external-hide-time" type="time" aria-label="وقت بداية الإجازة" />
+              <input id="leaveFromTime" class="external-hide-time custom-time-hidden" type="hidden" aria-label="ساعة بداية الإجازة" />
+              <div class="custom-time-select external-hide-time-custom" data-target="leaveFromTime">
+                <button type="button" class="custom-time-trigger" aria-haspopup="listbox" aria-expanded="false">اختر الساعة</button>
+                <div class="custom-time-menu" role="listbox">
+                  <button type="button" class="custom-time-option" data-value="01">01</button>
+                  <button type="button" class="custom-time-option" data-value="02">02</button>
+                  <button type="button" class="custom-time-option" data-value="03">03</button>
+                  <button type="button" class="custom-time-option" data-value="04">04</button>
+                  <button type="button" class="custom-time-option" data-value="05">05</button>
+                  <button type="button" class="custom-time-option" data-value="06">06</button>
+                  <button type="button" class="custom-time-option" data-value="07">07</button>
+                  <button type="button" class="custom-time-option" data-value="08">08</button>
+                  <button type="button" class="custom-time-option" data-value="09">09</button>
+                  <button type="button" class="custom-time-option" data-value="10">10</button>
+                  <button type="button" class="custom-time-option" data-value="11">11</button>
+                  <button type="button" class="custom-time-option" data-value="12">12</button>
+                </div>
+              </div>
+              <input id="leaveFromMinute" class="external-hide-time custom-time-hidden" type="hidden" aria-label="دقيقة بداية الإجازة" />
+              <div class="custom-time-select external-hide-time-custom" data-target="leaveFromMinute">
+                <button type="button" class="custom-time-trigger" aria-haspopup="listbox" aria-expanded="false">الدقيقة</button>
+                <div class="custom-time-menu" role="listbox">
+                  <button type="button" class="custom-time-option" data-value="01">01</button>
+                  <button type="button" class="custom-time-option" data-value="02">02</button>
+                  <button type="button" class="custom-time-option" data-value="03">03</button>
+                  <button type="button" class="custom-time-option" data-value="04">04</button>
+                  <button type="button" class="custom-time-option" data-value="05">05</button>
+                  <button type="button" class="custom-time-option" data-value="06">06</button>
+                  <button type="button" class="custom-time-option" data-value="07">07</button>
+                  <button type="button" class="custom-time-option" data-value="08">08</button>
+                  <button type="button" class="custom-time-option" data-value="09">09</button>
+                  <button type="button" class="custom-time-option" data-value="10">10</button>
+                  <button type="button" class="custom-time-option" data-value="11">11</button>
+                  <button type="button" class="custom-time-option" data-value="12">12</button>
+                  <button type="button" class="custom-time-option" data-value="13">13</button>
+                  <button type="button" class="custom-time-option" data-value="14">14</button>
+                  <button type="button" class="custom-time-option" data-value="15">15</button>
+                  <button type="button" class="custom-time-option" data-value="16">16</button>
+                  <button type="button" class="custom-time-option" data-value="17">17</button>
+                  <button type="button" class="custom-time-option" data-value="18">18</button>
+                  <button type="button" class="custom-time-option" data-value="19">19</button>
+                  <button type="button" class="custom-time-option" data-value="20">20</button>
+                  <button type="button" class="custom-time-option" data-value="21">21</button>
+                  <button type="button" class="custom-time-option" data-value="22">22</button>
+                  <button type="button" class="custom-time-option" data-value="23">23</button>
+                  <button type="button" class="custom-time-option" data-value="24">24</button>
+                  <button type="button" class="custom-time-option" data-value="25">25</button>
+                  <button type="button" class="custom-time-option" data-value="26">26</button>
+                  <button type="button" class="custom-time-option" data-value="27">27</button>
+                  <button type="button" class="custom-time-option" data-value="28">28</button>
+                  <button type="button" class="custom-time-option" data-value="29">29</button>
+                  <button type="button" class="custom-time-option" data-value="30">30</button>
+                  <button type="button" class="custom-time-option" data-value="31">31</button>
+                  <button type="button" class="custom-time-option" data-value="32">32</button>
+                  <button type="button" class="custom-time-option" data-value="33">33</button>
+                  <button type="button" class="custom-time-option" data-value="34">34</button>
+                  <button type="button" class="custom-time-option" data-value="35">35</button>
+                  <button type="button" class="custom-time-option" data-value="36">36</button>
+                  <button type="button" class="custom-time-option" data-value="37">37</button>
+                  <button type="button" class="custom-time-option" data-value="38">38</button>
+                  <button type="button" class="custom-time-option" data-value="39">39</button>
+                  <button type="button" class="custom-time-option" data-value="40">40</button>
+                  <button type="button" class="custom-time-option" data-value="41">41</button>
+                  <button type="button" class="custom-time-option" data-value="42">42</button>
+                  <button type="button" class="custom-time-option" data-value="43">43</button>
+                  <button type="button" class="custom-time-option" data-value="44">44</button>
+                  <button type="button" class="custom-time-option" data-value="45">45</button>
+                  <button type="button" class="custom-time-option" data-value="46">46</button>
+                  <button type="button" class="custom-time-option" data-value="47">47</button>
+                  <button type="button" class="custom-time-option" data-value="48">48</button>
+                  <button type="button" class="custom-time-option" data-value="49">49</button>
+                  <button type="button" class="custom-time-option" data-value="50">50</button>
+                  <button type="button" class="custom-time-option" data-value="51">51</button>
+                  <button type="button" class="custom-time-option" data-value="52">52</button>
+                  <button type="button" class="custom-time-option" data-value="53">53</button>
+                  <button type="button" class="custom-time-option" data-value="54">54</button>
+                  <button type="button" class="custom-time-option" data-value="55">55</button>
+                  <button type="button" class="custom-time-option" data-value="56">56</button>
+                  <button type="button" class="custom-time-option" data-value="57">57</button>
+                  <button type="button" class="custom-time-option" data-value="58">58</button>
+                  <button type="button" class="custom-time-option" data-value="59">59</button>
+                </div>
+              </div>
               <select id="leaveFromPeriod" class="external-hide-time" aria-label="فترة البداية">
                 <option>ص</option>
                 <option>م</option>
               </select>
             </div>
           </div>
+
           <div class="field">
             <label>الى تاريخ</label>
-            <div class="inline date-time">
+            <div class="admin-date-time-row">
               <input id="leaveToDate" type="date" aria-label="تاريخ نهاية الإجازة" />
-              <input id="leaveToTime" class="external-hide-time" type="time" aria-label="وقت نهاية الإجازة" />
+              <input id="leaveToTime" class="external-hide-time custom-time-hidden" type="hidden" aria-label="ساعة نهاية الإجازة" />
+              <div class="custom-time-select external-hide-time-custom" data-target="leaveToTime">
+                <button type="button" class="custom-time-trigger" aria-haspopup="listbox" aria-expanded="false">اختر الساعة</button>
+                <div class="custom-time-menu" role="listbox">
+                  <button type="button" class="custom-time-option" data-value="01">01</button>
+                  <button type="button" class="custom-time-option" data-value="02">02</button>
+                  <button type="button" class="custom-time-option" data-value="03">03</button>
+                  <button type="button" class="custom-time-option" data-value="04">04</button>
+                  <button type="button" class="custom-time-option" data-value="05">05</button>
+                  <button type="button" class="custom-time-option" data-value="06">06</button>
+                  <button type="button" class="custom-time-option" data-value="07">07</button>
+                  <button type="button" class="custom-time-option" data-value="08">08</button>
+                  <button type="button" class="custom-time-option" data-value="09">09</button>
+                  <button type="button" class="custom-time-option" data-value="10">10</button>
+                  <button type="button" class="custom-time-option" data-value="11">11</button>
+                  <button type="button" class="custom-time-option" data-value="12">12</button>
+                </div>
+              </div>
+              <input id="leaveToMinute" class="external-hide-time custom-time-hidden" type="hidden" aria-label="دقيقة نهاية الإجازة" />
+              <div class="custom-time-select external-hide-time-custom" data-target="leaveToMinute">
+                <button type="button" class="custom-time-trigger" aria-haspopup="listbox" aria-expanded="false">الدقيقة</button>
+                <div class="custom-time-menu" role="listbox">
+                  <button type="button" class="custom-time-option" data-value="01">01</button>
+                  <button type="button" class="custom-time-option" data-value="02">02</button>
+                  <button type="button" class="custom-time-option" data-value="03">03</button>
+                  <button type="button" class="custom-time-option" data-value="04">04</button>
+                  <button type="button" class="custom-time-option" data-value="05">05</button>
+                  <button type="button" class="custom-time-option" data-value="06">06</button>
+                  <button type="button" class="custom-time-option" data-value="07">07</button>
+                  <button type="button" class="custom-time-option" data-value="08">08</button>
+                  <button type="button" class="custom-time-option" data-value="09">09</button>
+                  <button type="button" class="custom-time-option" data-value="10">10</button>
+                  <button type="button" class="custom-time-option" data-value="11">11</button>
+                  <button type="button" class="custom-time-option" data-value="12">12</button>
+                  <button type="button" class="custom-time-option" data-value="13">13</button>
+                  <button type="button" class="custom-time-option" data-value="14">14</button>
+                  <button type="button" class="custom-time-option" data-value="15">15</button>
+                  <button type="button" class="custom-time-option" data-value="16">16</button>
+                  <button type="button" class="custom-time-option" data-value="17">17</button>
+                  <button type="button" class="custom-time-option" data-value="18">18</button>
+                  <button type="button" class="custom-time-option" data-value="19">19</button>
+                  <button type="button" class="custom-time-option" data-value="20">20</button>
+                  <button type="button" class="custom-time-option" data-value="21">21</button>
+                  <button type="button" class="custom-time-option" data-value="22">22</button>
+                  <button type="button" class="custom-time-option" data-value="23">23</button>
+                  <button type="button" class="custom-time-option" data-value="24">24</button>
+                  <button type="button" class="custom-time-option" data-value="25">25</button>
+                  <button type="button" class="custom-time-option" data-value="26">26</button>
+                  <button type="button" class="custom-time-option" data-value="27">27</button>
+                  <button type="button" class="custom-time-option" data-value="28">28</button>
+                  <button type="button" class="custom-time-option" data-value="29">29</button>
+                  <button type="button" class="custom-time-option" data-value="30">30</button>
+                  <button type="button" class="custom-time-option" data-value="31">31</button>
+                  <button type="button" class="custom-time-option" data-value="32">32</button>
+                  <button type="button" class="custom-time-option" data-value="33">33</button>
+                  <button type="button" class="custom-time-option" data-value="34">34</button>
+                  <button type="button" class="custom-time-option" data-value="35">35</button>
+                  <button type="button" class="custom-time-option" data-value="36">36</button>
+                  <button type="button" class="custom-time-option" data-value="37">37</button>
+                  <button type="button" class="custom-time-option" data-value="38">38</button>
+                  <button type="button" class="custom-time-option" data-value="39">39</button>
+                  <button type="button" class="custom-time-option" data-value="40">40</button>
+                  <button type="button" class="custom-time-option" data-value="41">41</button>
+                  <button type="button" class="custom-time-option" data-value="42">42</button>
+                  <button type="button" class="custom-time-option" data-value="43">43</button>
+                  <button type="button" class="custom-time-option" data-value="44">44</button>
+                  <button type="button" class="custom-time-option" data-value="45">45</button>
+                  <button type="button" class="custom-time-option" data-value="46">46</button>
+                  <button type="button" class="custom-time-option" data-value="47">47</button>
+                  <button type="button" class="custom-time-option" data-value="48">48</button>
+                  <button type="button" class="custom-time-option" data-value="49">49</button>
+                  <button type="button" class="custom-time-option" data-value="50">50</button>
+                  <button type="button" class="custom-time-option" data-value="51">51</button>
+                  <button type="button" class="custom-time-option" data-value="52">52</button>
+                  <button type="button" class="custom-time-option" data-value="53">53</button>
+                  <button type="button" class="custom-time-option" data-value="54">54</button>
+                  <button type="button" class="custom-time-option" data-value="55">55</button>
+                  <button type="button" class="custom-time-option" data-value="56">56</button>
+                  <button type="button" class="custom-time-option" data-value="57">57</button>
+                  <button type="button" class="custom-time-option" data-value="58">58</button>
+                  <button type="button" class="custom-time-option" data-value="59">59</button>
+                </div>
+              </div>
               <select id="leaveToPeriod" class="external-hide-time" aria-label="فترة النهاية">
                 <option>ص</option>
                 <option>م</option>
@@ -102,14 +267,6 @@
           <div class="field">
             <label for="leaveRulesLink">رابط قوانين الإجازات</label>
             <input id="leaveRulesLink" type="text" value="https://discord.com/channels/1071933157097615480/1071934713524133918/1500101205320536155" placeholder="ضع رابط القوانين هنا" />
-          </div>
-        </div>
-
-        <h2 class="leave-notes-title">الملاحظات</h2>
-        <div class="grid one leave-notes-group">
-          <div class="field">
-            <label for="leaveNotes">الملاحظات</label>
-            <textarea id="leaveNotes" rows="3">يلزم الفني اكمال 24 ساعة من اخر اجازة و التأكد من المخالفات و تصفير الاجازات</textarea>
           </div>
         </div>
 
@@ -174,7 +331,7 @@
   </main>
 
   <div id="toast" role="status" aria-live="polite"></div>
-  <script src="admin.js"></script>
-  <script src="auth.js?v=account-profile-final-20260724"></script>
+  <script src="admin.js?v=mechanics-sheet-mentions"></script>
+  <script src="auth.js?v=mechanics-sheet-mentions"></script>
 </body>
 </html>

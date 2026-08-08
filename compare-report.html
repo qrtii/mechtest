@@ -7,7 +7,7 @@
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=Tajawal:wght@400;500;700;800&display=swap" rel="stylesheet">
-  <link rel="stylesheet" href="style.css?v=account-profile-final-20260724" />
+  <link rel="stylesheet" href="style.css?v=mechanics-sheet-mentions" />
   <style>
     html, body { min-height: 100%; }
     .compare-page-shell {
@@ -39,6 +39,29 @@
       </div>
     </nav>
 
+
+    <section class="card mechanics-mention-helper">
+      <div class="compare-toolbar">
+        <h1>تحويل كود الميكانيك إلى منشن</h1>
+        <button id="refreshMechanicsSheetBtn" class="ghost" type="button">تحديث جدول الميكانيك</button>
+      </div>
+      <p class="section-note">جدول الميكانيك: <span data-mechanics-status>جاري قراءة جدول الميكانيك...</span></p>
+      <div class="grid two">
+        <div class="field">
+          <label for="compareMentionInput">الكود / الاسم / Copy ID</label>
+          <textarea id="compareMentionInput" rows="4" placeholder="مثال: G-109 أو سعيد البدواوي أو Copy ID"></textarea>
+        </div>
+        <div class="field">
+          <label for="compareMentionOutput">المنشن الناتج</label>
+          <textarea id="compareMentionOutput" rows="4" readonly>اكتب الكود أو الاسم أو Copy ID ثم اضغط تحويل.</textarea>
+        </div>
+      </div>
+      <div class="button-row">
+        <button id="convertCompareMentionBtn" class="primary" type="button">تحويل إلى منشن</button>
+        <button id="copyCompareMentionBtn" class="secondary" type="button">نسخ المنشن</button>
+      </div>
+    </section>
+
     <section class="card compare-full-card">
       <div class="compare-toolbar">
         <h1>مقارنة التقرير</h1>
@@ -56,6 +79,9 @@
       </div>
     </section>
   </main>
-  <script src="auth.js?v=account-profile-final-20260724"></script>
+  <div id="toast" role="status" aria-live="polite"></div>
+  <script src="mechanics-data.js?v=mechanics-sheet-mentions"></script>
+  <script src="compare-mentions.js?v=mechanics-sheet-mentions"></script>
+  <script src="auth.js?v=mechanics-sheet-mentions"></script>
 </body>
 </html>

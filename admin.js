@@ -24,12 +24,13 @@
     calculatedRemaining: $('leaveCalculatedRemaining'),
     fromDate: $('leaveFromDate'),
     fromTime: $('leaveFromTime'),
+    fromMinute: $('leaveFromMinute'),
     fromPeriod: $('leaveFromPeriod'),
     toDate: $('leaveToDate'),
     toTime: $('leaveToTime'),
+    toMinute: $('leaveToMinute'),
     toPeriod: $('leaveToPeriod'),
     rulesLink: $('leaveRulesLink'),
-    notes: $('leaveNotes'),
     signature: $('rewardSignature')
   };
 
@@ -40,6 +41,72 @@
     duration: $('assignmentDuration')
   };
 
+
+  function syncCustomTimeControl(input) {
+    if (!input || !input.id) return;
+
+    var wrapper = document.querySelector('.custom-time-select[data-target="' + input.id + '"]');
+    if (!wrapper) return;
+
+    var trigger = wrapper.querySelector('.custom-time-trigger');
+    if (!trigger) return;
+
+    var fallback = input.id.indexOf('Minute') !== -1 ? 'الدقيقة' : 'اختر الساعة';
+    trigger.textContent = input.value ? input.value : fallback;
+
+    Array.prototype.forEach.call(wrapper.querySelectorAll('.custom-time-option'), function (option) {
+      option.classList.toggle('selected', option.dataset.value === input.value);
+    });
+  }
+
+  function closeCustomTimeMenus(exceptWrapper) {
+    Array.prototype.forEach.call(document.querySelectorAll('.custom-time-select.open'), function (wrapper) {
+      if (wrapper !== exceptWrapper) {
+        wrapper.classList.remove('open');
+        var trigger = wrapper.querySelector('.custom-time-trigger');
+        if (trigger) trigger.setAttribute('aria-expanded', 'false');
+      }
+    });
+  }
+
+  function initCustomTimeDropdowns() {
+    Array.prototype.forEach.call(document.querySelectorAll('.custom-time-select'), function (wrapper) {
+      var target = $(wrapper.dataset.target);
+      var trigger = wrapper.querySelector('.custom-time-trigger');
+
+      if (!target || !trigger || wrapper.dataset.ready === '1') return;
+      wrapper.dataset.ready = '1';
+
+      trigger.addEventListener('click', function () {
+        var willOpen = !wrapper.classList.contains('open');
+        closeCustomTimeMenus(wrapper);
+        wrapper.classList.toggle('open', willOpen);
+        trigger.setAttribute('aria-expanded', String(willOpen));
+      });
+
+      Array.prototype.forEach.call(wrapper.querySelectorAll('.custom-time-option'), function (option) {
+        option.addEventListener('click', function () {
+          target.value = option.dataset.value || '';
+          target.dispatchEvent(new Event('change', { bubbles: true }));
+          syncCustomTimeControl(target);
+          closeCustomTimeMenus();
+        });
+      });
+
+      syncCustomTimeControl(target);
+    });
+
+    document.addEventListener('click', function (event) {
+      if (!event.target.closest('.custom-time-select')) {
+        closeCustomTimeMenus();
+      }
+    });
+
+    document.addEventListener('keydown', function (event) {
+      if (event.key === 'Escape') closeCustomTimeMenus();
+    });
+  }
+
   function safeText(input, fallback) {
     if (fallback === undefined) fallback = 'لا يوجد';
     var text = input && input.value !== undefined ? String(input.value).trim() : '';
@@ -47,7 +114,10 @@
   }
 
   function setValue(input, val) {
-    if (input) input.value = val;
+    if (input) {
+      input.value = val;
+      syncCustomTimeControl(input);
+    }
   }
 
   function normalizeArabicNumbers(text) {
@@ -207,11 +277,7 @@
     }
   }
 
-  function ensureLeaveNotes() {
-    if (leaveFields.notes && !String(leaveFields.notes.value || '').trim()) {
-      leaveFields.notes.value = DEFAULT_LEAVE_NOTES;
-    }
-  }
+  function ensureLeaveNotes() {}
 
   function toggleElements(selector, hidden) {
     Array.prototype.forEach.call(document.querySelectorAll(selector), function (el) {
@@ -232,13 +298,12 @@
     }
 
     toggleElements('.leave-balance-field', merchant || reward || external);
-    toggleElements('.leave-notes-title', merchant || reward || external);
-    toggleElements('.leave-notes-group', merchant || reward || external);
     toggleElements('.reward-signature-title', !reward);
     toggleElements('.reward-signature-group', !reward);
-    [leaveFields.fromTime, leaveFields.fromPeriod, leaveFields.toTime, leaveFields.toPeriod].forEach(function (el) {
+    [leaveFields.fromTime, leaveFields.fromMinute, leaveFields.fromPeriod, leaveFields.toTime, leaveFields.toMinute, leaveFields.toPeriod].forEach(function (el) {
       if (el) el.classList.toggle('hidden', external);
     });
+    toggleElements('.external-hide-time-custom', external);
   }
 
   function updateVisibleForm() {
@@ -250,6 +315,25 @@
     if (output) output.value = DEFAULT_OUTPUT_TEXT;
   }
 
+
+  function formatTimeParts(hourInput, minuteInput, fallback) {
+    if (fallback === undefined) fallback = '00:00';
+
+    var hour = hourInput && hourInput.value !== undefined ? String(hourInput.value).trim() : '';
+    var minute = minuteInput && minuteInput.value !== undefined ? String(minuteInput.value).trim() : '';
+
+    if (!hour) return fallback;
+
+    if (hour.indexOf(':') !== -1) {
+      var parts = hour.split(':');
+      hour = parts[0] || '';
+      if (!minute) minute = parts[1] || '';
+    }
+
+    if (!minute) minute = '00';
+    return toTwelveHourTime(hour + ':' + minute);
+  }
+
   function getLeaveCommonData() {
     ensureLeaveRulesLink();
     formatMentionField(leaveFields.technician);
@@ -259,10 +343,10 @@
       person: safeText(leaveFields.technician, ''),
       duration: safeText(leaveFields.duration, '00 ساعة'),
       fromDate: formatDate(leaveFields.fromDate),
-      fromTime: formatTime(leaveFields.fromTime),
+      fromTime: formatTimeParts(leaveFields.fromTime, leaveFields.fromMinute),
       fromPeriod: safeText(leaveFields.fromPeriod, 'ص'),
       toDate: formatDate(leaveFields.toDate),
-      toTime: formatTime(leaveFields.toTime),
+      toTime: formatTimeParts(leaveFields.toTime, leaveFields.toMinute),
       toPeriod: safeText(leaveFields.toPeriod, 'ص'),
       rulesLink: safeText(leaveFields.rulesLink, DEFAULT_LEAVE_RULES_LINK)
     };
@@ -311,11 +395,9 @@
     if (isLeadershipReward()) return buildLeadershipRewardReport();
     if (isExternalLeave()) return buildExternalLeaveReport();
 
-    ensureLeaveNotes();
     var title = 'إجازة داخلية';
     var data = getLeaveCommonData();
     var remaining = calculateRemainingBalance() || safeText(leaveFields.calculatedRemaining, '00 ساعة');
-    var notes = safeText(leaveFields.notes, DEFAULT_LEAVE_NOTES);
 
     return '***` ' + title + ' `*** \n\n' +
       '***`الفني / المشرف المحترم : ` ' + safeText(leaveFields.technician, '') + '     ***            \n\n' +
@@ -323,7 +405,6 @@
       '***`الرصيد المتبقي :` ' + remaining + '*** \n\n' +
       '***من تاريخ ' + data.fromDate + ' ' + data.fromTime + ' ' + data.fromPeriod + '*** \n' +
       '***الى تاريخ ' + data.toDate + ' ' + data.toTime + ' ' + data.toPeriod + ' *** \n\n' +
-      '***`الملاحظات :` ' + notes + '***\n\n' +
       '***يجب قراءة كامل [قوانين الإجازات](' + data.rulesLink + ') والافادة بالاستلام بوضع رياكشن ***\n\n' +
       '`جهلك بالقوانين لا يعفيك من العقوبة\n`*** \n';
   }
@@ -367,13 +448,14 @@
       setValue(leaveFields.remaining, '19 ساعة');
       calculateRemainingBalance();
       setValue(leaveFields.fromDate, '2026-06-29');
-      setValue(leaveFields.fromTime, '04:10');
+      setValue(leaveFields.fromTime, '04');
+      setValue(leaveFields.fromMinute, '10');
       setValue(leaveFields.fromPeriod, 'ص');
       setValue(leaveFields.toDate, '2026-06-29');
-      setValue(leaveFields.toTime, '07:10');
+      setValue(leaveFields.toTime, '07');
+      setValue(leaveFields.toMinute, '10');
       setValue(leaveFields.toPeriod, 'ص');
       setValue(leaveFields.rulesLink, DEFAULT_LEAVE_RULES_LINK);
-      setValue(leaveFields.notes, DEFAULT_LEAVE_NOTES);
     }
 
     if (type === 'externalLeave') {
@@ -383,12 +465,13 @@
       setValue(leaveFields.calculatedRemaining, '');
       setValue(leaveFields.fromDate, '2026-07-17');
       setValue(leaveFields.fromTime, '');
+      setValue(leaveFields.fromMinute, '');
       setValue(leaveFields.fromPeriod, 'ص');
       setValue(leaveFields.toDate, '2026-08-16');
       setValue(leaveFields.toTime, '');
+      setValue(leaveFields.toMinute, '');
       setValue(leaveFields.toPeriod, 'ص');
       setValue(leaveFields.rulesLink, DEFAULT_LEAVE_RULES_LINK);
-      setValue(leaveFields.notes, '');
     }
 
     if (type === 'merchantLeave' || type === 'leadershipReward') {
@@ -397,10 +480,12 @@
       setValue(leaveFields.remaining, '');
       setValue(leaveFields.calculatedRemaining, '');
       setValue(leaveFields.fromDate, '2026-06-29');
-      setValue(leaveFields.fromTime, '00:00');
+      setValue(leaveFields.fromTime, '12');
+      setValue(leaveFields.fromMinute, '');
       setValue(leaveFields.fromPeriod, 'ص');
       setValue(leaveFields.toDate, '2026-06-29');
-      setValue(leaveFields.toTime, '00:00');
+      setValue(leaveFields.toTime, '12');
+      setValue(leaveFields.toMinute, '');
       setValue(leaveFields.toPeriod, 'م');
       setValue(leaveFields.rulesLink, DEFAULT_LEAVE_RULES_LINK);
       if (type === 'leadershipReward') setValue(leaveFields.signature, '<@943708520648433674>');
@@ -426,8 +511,7 @@
     });
     if (section === 'leave') {
       ensureLeaveRulesLink();
-      ensureLeaveNotes();
-      }
+        }
     if (output) output.value = DEFAULT_OUTPUT_TEXT;
     toast('تم مسح الخانات');
   }
@@ -479,6 +563,7 @@
 
   ensureLeaveRulesLink();
   ensureLeaveNotes();
+  initCustomTimeDropdowns();
   bindEvents();
   updateVisibleForm();
 }());

@@ -35,6 +35,10 @@ function toTwelveHourTime(rawTime, fallback = '00:00') {
 }
 
 function convertDiscordIdsToMentions(text) {
+  if (window.MechanicsMentions && typeof window.MechanicsMentions.resolve === 'function') {
+    return window.MechanicsMentions.resolve(text);
+  }
+
   const placeholders = [];
   let working = normalizeDigits(String(text || ''));
 

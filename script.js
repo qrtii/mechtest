@@ -4,7 +4,7 @@
 const FIELD_ACCOUNT_PROFILES = {
   "481603641158139924": {
     name: "سعيد البدواوي",
-    code: "G-142",
+    code: "G-109",
     certified: "CD",
     avatar: "https://cdn.discordapp.com/embed/avatars/0.png"
   },
@@ -121,8 +121,73 @@ async function copyResult() {
   }
 }
 
+
+function initCustomDirectionSelect() {
+  const wrapper = document.getElementById("rankCustomSelect");
+  const button = document.getElementById("rankCustomButton");
+  const menu = document.getElementById("rankCustomMenu");
+  if (!wrapper || !button || !menu || !rankInput) return;
+
+  rankInput.classList.add("native-select-hidden");
+
+  function closeMenu() {
+    wrapper.classList.remove("open");
+    button.setAttribute("aria-expanded", "false");
+  }
+
+  function openMenu() {
+    wrapper.classList.add("open");
+    button.setAttribute("aria-expanded", "true");
+  }
+
+  function refreshButton() {
+    const selectedOption = rankInput.options[rankInput.selectedIndex];
+    button.textContent = selectedOption && selectedOption.value ? selectedOption.textContent : "اختر التوجيه";
+  }
+
+  menu.innerHTML = "";
+  Array.from(rankInput.options).forEach((option) => {
+    const item = document.createElement("button");
+    item.type = "button";
+    item.className = "custom-select-option";
+    item.setAttribute("role", "option");
+    item.dataset.value = option.value;
+    item.textContent = option.textContent;
+
+    item.addEventListener("click", () => {
+      rankInput.value = option.value;
+      refreshButton();
+      closeMenu();
+      rankInput.dispatchEvent(new Event("change", { bubbles: true }));
+    });
+
+    menu.appendChild(item);
+  });
+
+  button.addEventListener("click", (event) => {
+    event.stopPropagation();
+    wrapper.classList.contains("open") ? closeMenu() : openMenu();
+  });
+
+  button.addEventListener("keydown", (event) => {
+    if (event.key === "Escape") closeMenu();
+    if (event.key === "Enter" || event.key === " ") {
+      event.preventDefault();
+      wrapper.classList.contains("open") ? closeMenu() : openMenu();
+    }
+  });
+
+  document.addEventListener("click", (event) => {
+    if (!wrapper.contains(event.target)) closeMenu();
+  });
+
+  rankInput.addEventListener("change", refreshButton);
+  refreshButton();
+}
+
 function initFieldDirectionPage() {
   loadAccountProfile();
+  initCustomDirectionSelect();
 
   showBtn.addEventListener("click", showResult);
   copyBtn.addEventListener("click", copyResult);

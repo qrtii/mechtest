@@ -1402,3 +1402,305 @@ textarea,
     grid-template-columns: 1fr !important;
   }
 }
+
+
+/* إصلاح قوائم الاختيار في Firefox + قائمة مخصصة للتوجيهات */
+select {
+  color-scheme: dark;
+}
+
+select option,
+select optgroup {
+  background-color: #0d151e !important;
+  color: #ffffff !important;
+  font-size: 1rem;
+}
+
+select option:checked {
+  background-color: #d99a2b !important;
+  color: #201405 !important;
+}
+
+@-moz-document url-prefix() {
+  select {
+    background-color: #0a141f !important;
+    color: #ffffff !important;
+  }
+
+  select option,
+  select optgroup {
+    background-color: #111820 !important;
+    color: #ffffff !important;
+  }
+}
+
+.native-select-hidden {
+  position: absolute !important;
+  width: 1px !important;
+  height: 1px !important;
+  opacity: 0 !important;
+  pointer-events: none !important;
+  overflow: hidden !important;
+}
+
+.direction-select-field {
+  position: relative;
+}
+
+.custom-select {
+  position: relative;
+  width: 100%;
+  z-index: 20;
+}
+
+.custom-select-button {
+  width: 100%;
+  min-height: 56px;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  color: #f8fbff;
+  background: linear-gradient(180deg, rgba(255,255,255,0.05), rgba(255,255,255,0.02)), #0a141f;
+  border: 1px solid rgba(217,154,43,0.52);
+  border-radius: 10px;
+  padding: 14px 15px;
+  text-align: right;
+  font-size: 1rem;
+  box-shadow: none !important;
+}
+
+.custom-select-button::before {
+  content: "⌄";
+  order: 2;
+  font-size: 1.15rem;
+  color: #ffffff;
+}
+
+.custom-select.open .custom-select-button {
+  border-color: rgba(243,194,102,0.9);
+}
+
+.custom-select-menu {
+  display: none;
+  position: absolute;
+  top: calc(100% + 8px);
+  left: 0;
+  right: 0;
+  max-height: 320px;
+  overflow-y: auto;
+  padding: 8px;
+  border: 1px solid rgba(217,154,43,0.48);
+  border-radius: 12px;
+  background: #10171d;
+  box-shadow: 0 14px 26px rgba(0,0,0,0.30) !important;
+  z-index: 999;
+}
+
+.custom-select.open .custom-select-menu {
+  display: grid;
+  gap: 6px;
+}
+
+.custom-select-option {
+  width: 100%;
+  min-height: 42px;
+  padding: 10px 12px;
+  color: #ffffff;
+  background: transparent;
+  border: 1px solid transparent;
+  border-radius: 8px;
+  text-align: right;
+  font-size: 1rem;
+  box-shadow: none !important;
+}
+
+.custom-select-option:hover,
+.custom-select-option:focus {
+  color: #201405;
+  background: linear-gradient(135deg, #f3c266, #d99a2b);
+  border-color: rgba(243,194,102,0.85);
+  outline: none;
+}
+
+
+/* تنظيف خيارات التوجيه + دقائق الإجازة */
+.inline.date-time {
+  grid-template-columns: minmax(0, 1fr) 86px 86px 76px;
+}
+
+#leaveFromTime,
+#leaveToTime,
+#leaveFromMinute,
+#leaveToMinute {
+  color: #f8fbff !important;
+  background-color: #0b1724 !important;
+}
+
+#leaveFromTime option,
+#leaveToTime option,
+#leaveFromMinute option,
+#leaveToMinute option,
+#rank option {
+  color: #f8fbff !important;
+  background: #101820 !important;
+}
+
+@media (max-width: 760px) {
+  .inline.date-time {
+    grid-template-columns: 1fr;
+  }
+}
+
+
+/* إصلاح ظهور خانة الدقائق في الشؤون الإدارية */
+.admin-date-time-row {
+  display: grid !important;
+  grid-template-columns: minmax(190px, 1fr) 120px 120px 80px !important;
+  gap: 8px !important;
+  align-items: center !important;
+}
+
+.admin-date-time-row input,
+.admin-date-time-row select {
+  min-width: 0 !important;
+  width: 100% !important;
+}
+
+#leaveFromTime,
+#leaveToTime,
+#leaveFromMinute,
+#leaveToMinute,
+#leaveFromPeriod,
+#leaveToPeriod {
+  color: #f8fbff !important;
+  background-color: #0b1724 !important;
+}
+
+#leaveFromTime option,
+#leaveToTime option,
+#leaveFromMinute option,
+#leaveToMinute option,
+#leaveFromPeriod option,
+#leaveToPeriod option {
+  color: #f8fbff !important;
+  background: #101820 !important;
+}
+
+@media (max-width: 1100px) {
+  .admin-date-time-row {
+    grid-template-columns: 1fr 1fr !important;
+  }
+}
+
+@media (max-width: 620px) {
+  .admin-date-time-row {
+    grid-template-columns: 1fr !important;
+  }
+}
+
+
+/* قوائم الساعة والدقيقة المخصصة للشؤون الإدارية - بديلة لقائمة Firefox */
+.custom-time-hidden {
+  display: none !important;
+}
+
+.custom-time-select {
+  position: relative;
+  width: 100%;
+  min-width: 0;
+}
+
+.custom-time-trigger {
+  width: 100%;
+  min-height: 46px;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  color: #f8fbff !important;
+  background:
+    linear-gradient(180deg, rgba(255,255,255,0.05), rgba(255,255,255,0.02)),
+    #0b1724 !important;
+  border: 1px solid rgba(255,255,255,0.14) !important;
+  border-radius: 10px;
+  padding: 12px 14px;
+  box-shadow: none !important;
+}
+
+.custom-time-trigger::before {
+  content: "⌄";
+  color: #f8fbff;
+  font-size: 1.2rem;
+  margin-left: 8px;
+}
+
+.custom-time-select.open .custom-time-trigger {
+  border-color: rgba(243,194,102,0.86) !important;
+}
+
+.custom-time-menu {
+  position: absolute;
+  top: calc(100% + 6px);
+  left: 0;
+  right: 0;
+  z-index: 9999;
+  display: none;
+  max-height: 230px;
+  overflow-y: auto;
+  padding: 6px;
+  border: 1px solid rgba(217,154,43,0.48);
+  border-radius: 10px;
+  background: #101820;
+  box-shadow: 0 14px 30px rgba(0,0,0,0.35);
+}
+
+.custom-time-select.open .custom-time-menu {
+  display: grid;
+  gap: 4px;
+}
+
+.custom-time-option {
+  width: 100%;
+  min-height: 36px;
+  color: #f8fbff !important;
+  background: transparent !important;
+  border: 0 !important;
+  border-radius: 7px;
+  padding: 8px 10px;
+  text-align: center;
+  box-shadow: none !important;
+}
+
+.custom-time-option:hover,
+.custom-time-option.selected {
+  color: #211506 !important;
+  background: linear-gradient(135deg, #f3c266, #d99a2b) !important;
+}
+
+.admin-date-time-row {
+  overflow: visible !important;
+}
+
+/* حذف خانة الملاحظات نهائياً من الشؤون الإدارية */
+.leave-notes-title, .leave-notes-group, #leaveNotes { display: none !important; }
+
+
+/* ربط جدول الميكانيك وتحويل الأكواد إلى منشن */
+.mechanics-status-note,
+.mechanics-mention-helper {
+  margin-bottom: 18px;
+}
+
+.mechanics-status-note span,
+.mechanics-mention-helper [data-mechanics-status] {
+  color: #f3c266;
+  font-weight: 900;
+}
+
+.mechanics-mention-helper {
+  padding: 20px;
+  border-color: rgba(217,154,43,0.32);
+}
+
+.mechanics-mention-helper textarea {
+  min-height: 110px;
+}
