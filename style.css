@@ -1732,66 +1732,81 @@ body.compare-fullscreen-page .compare-frame-full iframe {
 }
 
 
-/* مقارنة محلية تعرض الأسماء من جدول الميكانيك */
-.local-report-compare {
-  margin-bottom: 18px;
+/* مقارنة التقرير المحلية بالأسماء من جدول الميكانيك */
+.local-report-compare textarea {
+  min-height: 260px;
 }
 
-.compare-name-results {
+.compare-input-grid {
+  align-items: stretch;
+}
+
+.compare-results-grid {
   display: grid;
   grid-template-columns: repeat(3, minmax(0, 1fr));
   gap: 14px;
   margin-top: 18px;
 }
 
-.name-result-box {
-  border: 1px solid rgba(217,154,43,0.24);
-  border-radius: 14px;
-  background: rgba(0,0,0,0.22);
+.compare-result-card {
+  min-height: 240px;
   padding: 16px;
-  min-height: 170px;
+  border: 1px solid rgba(217,154,43,0.28);
+  border-radius: 14px;
+  background: rgba(0,0,0,0.24);
 }
 
-.name-result-box h2 {
+.compare-result-card h2 {
   margin: 0 0 12px;
-  color: #7cff8b;
-  font-size: 1.05rem;
-  font-weight: 900;
+  color: #f3c266;
+  font-size: 1.1rem;
 }
 
-.mention-name-list {
+.compare-name-list {
   display: grid;
   gap: 8px;
 }
 
-.mention-name-item {
+.compare-name-item {
   display: grid;
   gap: 4px;
   padding: 10px 12px;
-  border-radius: 10px;
-  background: rgba(255,255,255,0.06);
   border: 1px solid rgba(255,255,255,0.08);
+  border-radius: 10px;
+  background: rgba(255,255,255,0.045);
 }
 
-.mention-name-item strong {
-  color: #f3c266;
+.compare-name-item strong {
+  color: #fff;
   font-weight: 900;
 }
 
-.mention-name-item span {
+.compare-name-item span {
   direction: ltr;
   text-align: right;
-  color: rgba(255,255,255,0.74);
-  font-size: 0.9rem;
-  word-break: break-all;
+  color: rgba(255,255,255,0.68);
+  font-size: 0.86rem;
 }
 
-.empty-mention-result {
+.compare-name-item code {
+  direction: ltr;
+  text-align: right;
+  color: #f3c266;
+  background: rgba(0,0,0,0.20);
+  border-radius: 7px;
+  padding: 4px 6px;
+  font-family: ui-monospace, SFMono-Regular, Consolas, monospace;
+  font-size: 0.86rem;
+}
+
+.compare-empty {
+  margin: 0;
   color: rgba(255,255,255,0.60);
+  line-height: 1.8;
 }
 
-@media (max-width: 1000px) {
-  .compare-name-results {
+@media (max-width: 1050px) {
+  .compare-results-grid {
     grid-template-columns: 1fr;
   }
 }

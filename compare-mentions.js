@@ -6,6 +6,24 @@
   const refreshBtn = document.getElementById('refreshMechanicsSheetBtn');
   const toast = document.getElementById('toast');
 
+  const supervisorInput = document.getElementById('supervisorCompareInput');
+  const technicianInput = document.getElementById('technicianCompareInput');
+  const runBtns = [document.getElementById('runLocalCompareBtn'), document.getElementById('runLocalCompareBtn2')].filter(Boolean);
+  const clearBtn = document.getElementById('clearLocalCompareBtn');
+  const sharedList = document.getElementById('sharedMentionsList');
+  const supervisorOnlyList = document.getElementById('supervisorOnlyList');
+  const technicianOnlyList = document.getElementById('technicianOnlyList');
+
+  function normalizeDigits(text) {
+    const map = {
+      '٠': '0', '١': '1', '٢': '2', '٣': '3', '٤': '4',
+      '٥': '5', '٦': '6', '٧': '7', '٨': '8', '٩': '9',
+      '۰': '0', '۱': '1', '۲': '2', '۳': '3', '۴': '4',
+      '۵': '5', '۶': '6', '۷': '7', '۸': '8', '۹': '9'
+    };
+    return String(text || '').replace(/[٠-٩۰-۹]/g, (digit) => map[digit] || digit);
+  }
+
   function showToast(message) {
     if (!toast) return;
     toast.textContent = message;
@@ -35,105 +53,111 @@
     }
   }
 
+  function extractIdsFromText(text) {
+    const ids = new Set();
+    const normalized = normalizeDigits(String(text || ''));
+    const resolved = window.MechanicsMentions ? window.MechanicsMentions.resolve(normalized) : normalized;
+    const combined = normalized + '\n' + resolved;
+    const regex = /<@!?(\d{15,25})>|<(\d{15,25})@>|\b(\d{15,25})\b/g;
+    let match;
+    while ((match = regex.exec(combined)) !== null) {
+      const id = match[1] || match[2] || match[3];
+      if (id) ids.add(id);
+    }
+    return ids;
+  }
+
+  function displayForId(id) {
+    const profile = window.MechanicsMentions && typeof window.MechanicsMentions.lookup === 'function'
+      ? window.MechanicsMentions.lookup(id)
+      : null;
+
+    if (!profile) {
+      return {
+        title: 'غير موجود في جدول الميكانيك',
+        sub: id,
+        raw: '<@' + id + '>'
+      };
+    }
+
+    const codes = Array.isArray(profile.codes) && profile.codes.length ? profile.codes.join(' / ') : '';
+    return {
+      title: profile.name || 'بدون اسم',
+      sub: [codes, id].filter(Boolean).join(' | '),
+      raw: '<@' + id + '>'
+    };
+  }
+
+  function renderList(element, ids, emptyText) {
+    if (!element) return;
+    if (!ids.length) {
+      element.innerHTML = '<p class="compare-empty">' + emptyText + '</p>';
+      return;
+    }
+
+    element.innerHTML = ids.map((id) => {
+      const item = displayForId(id);
+      return '<div class="compare-name-item">' +
+        '<strong>' + escapeHtml(item.title) + '</strong>' +
+        '<span>' + escapeHtml(item.sub) + '</span>' +
+        '<code>' + escapeHtml(item.raw) + '</code>' +
+      '</div>';
+    }).join('');
+  }
+
+  function escapeHtml(value) {
+    return String(value || '')
+      .replace(/&/g, '&amp;')
+      .replace(/</g, '&lt;')
+      .replace(/>/g, '&gt;')
+      .replace(/"/g, '&quot;')
+      .replace(/'/g, '&#039;');
+  }
+
+  function runLocalCompare() {
+    const supervisorIds = extractIdsFromText(supervisorInput ? supervisorInput.value : '');
+    const technicianIds = extractIdsFromText(technicianInput ? technicianInput.value : '');
+
+    const shared = Array.from(supervisorIds).filter((id) => technicianIds.has(id));
+    const supervisorOnly = Array.from(supervisorIds).filter((id) => !technicianIds.has(id));
+    const technicianOnly = Array.from(technicianIds).filter((id) => !supervisorIds.has(id));
+
+    renderList(sharedList, shared, 'لا توجد منشنات مشتركة.');
+    renderList(supervisorOnlyList, supervisorOnly, 'لا يوجد أسماء موجودة في تقرير المشرف فقط.');
+    renderList(technicianOnlyList, technicianOnly, 'لا يوجد أسماء موجودة في تقرير الفني فقط.');
+    showToast('تمت المقارنة بالأسماء');
+  }
+
+  function clearLocalCompare() {
+    if (supervisorInput) supervisorInput.value = '';
+    if (technicianInput) technicianInput.value = '';
+    renderList(sharedList, [], 'لم يتم تشغيل المقارنة بعد.');
+    renderList(supervisorOnlyList, [], 'لم يتم تشغيل المقارنة بعد.');
+    renderList(technicianOnlyList, [], 'لم يتم تشغيل المقارنة بعد.');
+  }
+
   if (convertBtn) convertBtn.addEventListener('click', convert);
   if (copyBtn) copyBtn.addEventListener('click', copy);
   if (refreshBtn) refreshBtn.addEventListener('click', async () => {
     if (window.MechanicsMentions) {
       await window.MechanicsMentions.refresh();
       convert();
-      if (typeof runLocalCompare === 'function') runLocalCompare();
+      runLocalCompare();
       showToast('تم تحديث جدول الميكانيك');
     }
   });
   if (input) input.addEventListener('input', convert);
+  runBtns.forEach((button) => button.addEventListener('click', runLocalCompare));
+  if (clearBtn) clearBtn.addEventListener('click', clearLocalCompare);
+  if (supervisorInput) supervisorInput.addEventListener('input', runLocalCompare);
+  if (technicianInput) technicianInput.addEventListener('input', runLocalCompare);
 
-  document.addEventListener('DOMContentLoaded', convert);
-
-  const supervisorCompareText = document.getElementById('supervisorCompareText');
-  const technicianCompareText = document.getElementById('technicianCompareText');
-  const runLocalCompareBtn = document.getElementById('runLocalCompareBtn');
-  const commonMentionsNames = document.getElementById('commonMentionsNames');
-  const supervisorOnlyMentionsNames = document.getElementById('supervisorOnlyMentionsNames');
-  const technicianOnlyMentionsNames = document.getElementById('technicianOnlyMentionsNames');
-
-  function normalizeMentionDirection(text) {
-    return String(text || '').replace(/<(\d{15,25})@>/g, '<@$1>');
-  }
-
-  function extractMentionIds(text) {
-    const source = normalizeMentionDirection(
-      window.MechanicsMentions ? window.MechanicsMentions.resolve(text || '') : (text || '')
-    );
-
-    const ids = new Set();
-    const regex = /<@!?(\d{15,25})>|\b(\d{15,25})\b/g;
-    let match;
-
-    while ((match = regex.exec(source)) !== null) {
-      ids.add(match[1] || match[2]);
-    }
-
-    return ids;
-  }
-
-  function profileLabel(discordId) {
-    const mention = '<@' + discordId + '>';
-    const profile = window.MechanicsMentions ? window.MechanicsMentions.lookup(mention) : null;
-
-    if (!profile) {
-      return {
-        title: mention,
-        sub: 'غير موجود في جدول الميكانيك'
-      };
-    }
-
-    const code = Array.isArray(profile.codes) && profile.codes.length ? profile.codes[0] : '';
-    return {
-      title: (profile.name || 'بدون اسم') + (code ? ' | ' + code : ''),
-      sub: mention
-    };
-  }
-
-  function renderNameList(element, ids) {
-    if (!element) return;
-
-    const list = Array.from(ids || []);
-    if (!list.length) {
-      element.innerHTML = '<span class="empty-mention-result">لا يوجد</span>';
-      return;
-    }
-
-    element.innerHTML = list.map((discordId) => {
-      const data = profileLabel(discordId);
-      return '<div class="mention-name-item">' +
-        '<strong>' + data.title + '</strong>' +
-        '<span>' + data.sub + '</span>' +
-      '</div>';
-    }).join('');
-  }
-
-  function runLocalCompare() {
-    const supervisorIds = extractMentionIds(supervisorCompareText ? supervisorCompareText.value : '');
-    const technicianIds = extractMentionIds(technicianCompareText ? technicianCompareText.value : '');
-
-    const common = new Set(Array.from(supervisorIds).filter((id) => technicianIds.has(id)));
-    const supervisorOnly = new Set(Array.from(supervisorIds).filter((id) => !technicianIds.has(id)));
-    const technicianOnly = new Set(Array.from(technicianIds).filter((id) => !supervisorIds.has(id)));
-
-    renderNameList(commonMentionsNames, common);
-    renderNameList(supervisorOnlyMentionsNames, supervisorOnly);
-    renderNameList(technicianOnlyMentionsNames, technicianOnly);
-  }
-
-  if (runLocalCompareBtn) {
-    runLocalCompareBtn.addEventListener('click', runLocalCompare);
-  }
-
-  if (supervisorCompareText) supervisorCompareText.addEventListener('input', () => {
-    if (commonMentionsNames && commonMentionsNames.dataset.touched === '1') runLocalCompare();
+  document.addEventListener('mechanics-mentions-updated', () => {
+    convert();
+    runLocalCompare();
   });
-  if (technicianCompareText) technicianCompareText.addEventListener('input', () => {
-    if (commonMentionsNames && commonMentionsNames.dataset.touched === '1') runLocalCompare();
+  document.addEventListener('DOMContentLoaded', () => {
+    convert();
+    clearLocalCompare();
   });
-
 })();

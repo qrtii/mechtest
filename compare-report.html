@@ -7,7 +7,7 @@
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=Tajawal:wght@400;500;700;800&display=swap" rel="stylesheet">
-  <link rel="stylesheet" href="style.css?v=compare-names-sheet" />
+  <link rel="stylesheet" href="style.css?v=names-from-table" />
   <style>
     html, body { min-height: 100%; }
     .compare-page-shell {
@@ -158,63 +158,49 @@
       </div>
     </section>
 
-
-    <section class="card local-report-compare">
+    <section class="card compare-full-card local-report-compare">
       <div class="compare-toolbar">
-        <h1>مقارنة محلية بالأسماء</h1>
-        <button id="runLocalCompareBtn" class="primary" type="button">مقارنة وإظهار الأسماء</button>
+        <h1>مقارنة التقرير بالأسماء</h1>
+        <button id="runLocalCompareBtn" class="primary" type="button">بدء المقارنة</button>
       </div>
-      <p class="section-note">الصق تقرير المشرف وتقرير الفني هنا، وسيتم عرض المنشنات المشتركة والناقصة بالأسماء من جدول الميكانيك.</p>
+      <p class="section-note">الصق تقرير المشرف وتقرير الفني، وسيتم عرض المنشنات المشتركة والناقصة بالأسماء من جدول الميكانيك بدلاً من الأرقام.</p>
 
-      <div class="grid two">
+      <div class="grid two compare-input-grid">
         <div class="field">
-          <label for="supervisorCompareText">تقرير المشرف</label>
-          <textarea id="supervisorCompareText" rows="9" placeholder="الصق تقرير المشرف هنا..."></textarea>
+          <label for="supervisorCompareInput">تقرير المشرف</label>
+          <textarea id="supervisorCompareInput" rows="12" placeholder="الصق تقرير المشرف هنا..."></textarea>
         </div>
         <div class="field">
-          <label for="technicianCompareText">تقرير الفني</label>
-          <textarea id="technicianCompareText" rows="9" placeholder="الصق تقرير الفني هنا..."></textarea>
+          <label for="technicianCompareInput">تقرير الفني</label>
+          <textarea id="technicianCompareInput" rows="12" placeholder="الصق تقرير الفني هنا..."></textarea>
         </div>
       </div>
 
-      <div class="compare-name-results">
-        <div class="name-result-box">
+      <div class="button-row">
+        <button id="runLocalCompareBtn2" class="primary" type="button">مقارنة التقرير</button>
+        <button id="clearLocalCompareBtn" class="secondary" type="button">مسح الحقول</button>
+      </div>
+
+      <div class="compare-results-grid">
+        <div class="compare-result-card shared">
           <h2>المنشنات المشتركة ✅</h2>
-          <div id="commonMentionsNames" class="mention-name-list">لم يتم تشغيل المقارنة بعد.</div>
+          <div id="sharedMentionsList" class="compare-name-list">لم يتم تشغيل المقارنة بعد.</div>
         </div>
-
-        <div class="name-result-box">
-          <h2>موجودة في المشرف فقط</h2>
-          <div id="supervisorOnlyMentionsNames" class="mention-name-list">لم يتم تشغيل المقارنة بعد.</div>
+        <div class="compare-result-card missing-supervisor">
+          <h2>موجودة في تقرير الفني فقط</h2>
+          <div id="technicianOnlyList" class="compare-name-list">لم يتم تشغيل المقارنة بعد.</div>
         </div>
-
-        <div class="name-result-box">
-          <h2>موجودة في الفني فقط</h2>
-          <div id="technicianOnlyMentionsNames" class="mention-name-list">لم يتم تشغيل المقارنة بعد.</div>
+        <div class="compare-result-card missing-technician">
+          <h2>موجودة في تقرير المشرف فقط</h2>
+          <div id="supervisorOnlyList" class="compare-name-list">لم يتم تشغيل المقارنة بعد.</div>
         </div>
       </div>
     </section>
 
-    <section class="card compare-full-card">
-      <div class="compare-toolbar">
-        <h1>مقارنة التقرير</h1>
-        <a class="compare-open-link" href="https://xhhp1.github.io/SOMTINGHNEW/" target="_blank" rel="noopener">فتح في صفحة مستقلة</a>
-      </div>
-
-      <div class="compare-frame-full">
-        <iframe
-          src="https://xhhp1.github.io/SOMTINGHNEW/"
-          title="مقارنة التقرير"
-          loading="eager"
-          referrerpolicy="no-referrer-when-downgrade"
-          allowfullscreen>
-        </iframe>
-      </div>
-    </section>
   </main>
   <div id="toast" role="status" aria-live="polite"></div>
-  <script src="mechanics-data.js?v=compare-names-sheet"></script>
-  <script src="compare-mentions.js?v=compare-names-sheet"></script>
-  <script src="auth.js?v=compare-names-sheet"></script>
+  <script src="mechanics-data.js?v=names-from-table"></script>
+  <script src="compare-mentions.js?v=names-from-table"></script>
+  <script src="auth.js?v=names-from-table"></script>
 </body>
 </html>

@@ -55,6 +55,8 @@
     const normalized = normalizeDigits(String(text || ''));
     const mention = normalized.match(/<@!?(\d{15,25})>/);
     if (mention) return mention[1];
+    const reversedMention = normalized.match(/<(\d{15,25})@>/);
+    if (reversedMention) return reversedMention[1];
     const raw = normalized.match(/\b\d{15,25}\b/);
     return raw ? raw[0] : '';
   }
@@ -247,7 +249,7 @@
     let working = normalizeDigits(String(text || ''));
 
     working = protectText(working, /https?:\/\/\S+/g, placeholders);
-    working = protectText(working, /<@&?!?\d{15,25}>|<@!?\d{15,25}>/g, placeholders);
+    working = protectText(working, /<@&?!?\d{15,25}>|<@!?\d{15,25}>|<\d{15,25}@>/g, placeholders);
 
     // Copy ID مباشر.
     working = working.replace(/\b\d{15,25}\b/g, (discordId) => '<@' + discordId + '>');
@@ -301,6 +303,9 @@
     document.querySelectorAll('[data-mechanics-status]').forEach((element) => {
       element.textContent = text;
     });
+    try {
+      document.dispatchEvent(new CustomEvent('mechanics-mentions-updated', { detail: { status: text } }));
+    } catch (error) {}
   }
 
   resetIndexes();
